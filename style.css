@@ -1,0 +1,263 @@
+body {
+  margin: 0px;
+  font-family: 'Open Sans',Roboto;
+  min-height: 100vh;
+}
+div.calendar {
+  box-shadow: 0px 0px 5px 1px rgba(150,150,150,0.5);
+  border-radius: 3px;
+  display: inline-block;
+  margin: 1.5em;
+  position: relative;
+}
+div.calendar span.deleteuser {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 3px 9px;
+}
+div.calendar span.deleteuser:hover {
+  background-color: #eee;
+  border-radius: 5px;
+}
+div.placeholder {
+  position: relative;
+}
+div.selectfield {
+  position: absolute;
+  z-index: 2;
+  top: 0px;
+  left: 0px;
+  height: 100%;
+  width: 100%;
+  background-color: white;
+  opacity: 0;
+  display: none;
+}
+div.calendar table {
+  border-collapse: collapse;
+  padding-bottom: 5px;
+  /*border-bottom: 1px solid #aaa;*/
+}
+div.calendar tr {
+
+}
+div.calendar th {
+
+}
+div.calendar td {
+  padding: 5px 13px;
+  text-align: center;
+  font-size: 13px;
+  -webkit-touch-callout: none;
+-webkit-user-select: none;
+-khtml-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
+position:relative;
+}
+div.calendar td.off {
+  opacity: 0.4;
+}
+div.calendar div.deleteitem {
+  background-color: #fafafa;
+  width: calc(100% - 20px);
+  padding: 5px 10px;
+}
+div.calendar div.deleteitem:nth-child(odd) {
+  background-color: #fff;
+
+}
+div.calendar div.scrollbox {
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: visible;
+}
+div.calendar div.deleteitem span.dti {
+  display: block;
+  font-weight: bold;
+}
+div.calendar div.deleteitem span.dc {
+  display: block;
+  word-break: break-all;
+}
+div.calendar td div.type {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  opacity: 0.15;
+  top: 0px;
+  left: 0px;
+}
+div.calendar td div.type.sick {
+  background-color: #f00;
+}
+div.calendar td div.type.business {
+  background-color: #0f0;
+}
+div.calendar td div.type.vacation {
+  background-color: #00f;
+}
+div.calendar td div.type.homeoffice {
+  background-color: #0ff;
+}
+div.calendar td span.month {
+  color: #aaa;
+  font-size: 60%;
+  -webkit-touch-callout: none;
+-webkit-user-select: none;
+-khtml-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
+}
+div.calendar td:nth-child(odd) {
+  background-color: #fff;
+}
+div.calendar td:nth-child(even) {
+  background-color: #fff;
+}
+div.calendar td.active {
+  background-color: #aac;
+}
+div.calendar td.selected {
+  background-color: #dd3;
+}
+div.calendar h3 {
+  width: 100%;
+  display: block;
+  text-align: center;
+  color: #444;
+}
+div.calendar span.edit {
+  cursor: pointer;
+  width: 100%;
+  display: inline-block;
+  padding: 5px 0px;
+  text-align: center;
+}
+div.calendar span.add, div.calendar span.close, div.calendar span.delete {
+  cursor: pointer;
+  width: 33%;
+  display: inline-block;
+  padding: 5px 0px;
+  text-align: center;
+}
+div.calendar span.yes, div.calendar span.no {
+  cursor: pointer;
+  width: 50%;
+  display: inline-block;
+  padding: 5px 0px;
+  text-align: center;
+}
+
+input[type="radio"] {
+    display:none;
+}
+input[type="radio"] + label span {
+    display:inline-block;
+    width:40px;
+    height:40px;
+    margin:-2px 10px 0 0;
+    vertical-align:middle;
+    background:url(radio2.png) left top no-repeat;
+    cursor:pointer;
+}
+input[type="radio"] + label {
+  margin-left: 10px;
+  display: block;
+  margin: 10px 20px;
+  cursor: pointer;
+}
+input[type="radio"].red:checked + label span {
+    background:url(radio2.png) -40px top no-repeat;
+}
+input[type="radio"].red + label span {
+    background:url(radio2.png) left top no-repeat;
+}
+input[type="radio"].blue:checked + label span {
+    background:url(radio2.png) -120px top no-repeat;
+}
+input[type="radio"].blue + label span {
+    background:url(radio2.png) -80px top no-repeat;
+}
+input[type="radio"].green:checked + label span {
+    background:url(radio2.png) -200px top no-repeat;
+}
+input[type="radio"].green + label span {
+    background:url(radio2.png) -160px top no-repeat;
+}
+input[type="radio"].cyan:checked + label span {
+    background:url(radio2.png) -280px top no-repeat;
+}
+input[type="radio"].cyan + label span {
+    background:url(radio2.png) -240px top no-repeat;
+}
+
+textarea.reason {
+  min-width: calc(100% - 20px - 6px - 2px);
+  max-width: calc(100% - 20px - 6px - 2px);
+  padding: 3px;
+  margin-left: 10px;
+  border: 1px solid #ccc;
+}
+div.fancytitle {
+  width: calc(100% - 22px);
+  display: block;
+  height: 0px;
+  border: 1px solid #aaa;
+  position: relative;
+  margin: 25px 10px 20px;
+}
+div.fancytitle span {
+  position: absolute;
+  top: -10px;
+  font-size: 16px;
+  line-height: 16px;
+  background-color: white;
+  padding: 0px 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-weight: bold;
+}
+div.heightgetter {
+  overflow: hidden;
+}
+div.adduser {
+  display: inline-block;
+  margin-right: 0px;
+  margin-left: auto;
+  position: fixed;
+  right: 0px;
+  bottom: 0px;
+  box-shadow: 0px 0px 3px 3px rgba(150,150,150,0.2);
+  border-top-left-radius: 5px;
+  padding: 10px 30px 10px 10px;
+  background-color: white;
+  float: right;
+}
+div.adduser input {
+  border: 0px;
+  border-radius: 4px;
+  background-color: #eee;
+  box-shadow: 0px 0px 2px 2px rgba(200,200,200,0.3) inset;
+  padding: 5px;
+  font-size: 16px;
+}
+div.adduser span {
+  font-weight: normal;
+  background-color: #eee;
+  border: 1px solid #dfdfdf;
+  padding: 3px 15px;
+  font-size: 16px;
+  line-height: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.1s ease-out;
+}
+div.adduser span:hover {
+  background-color: #dfdfdf;
+}
