@@ -1,7 +1,12 @@
 /*
 Have fun!
-This really messy! :)
+This is really messy! :)
 */
+
+function daysInMonth(anyDateInMonth) {
+    return new Date(anyDateInMonth.getYear(),
+                    anyDateInMonth.getMonth()+1,
+                    0).getDate();}
 
 
 (function( $ ) {
@@ -13,6 +18,7 @@ This really messy! :)
       let table = $(this).find("table");
       let days = 0;
       let date = new Date();
+      //date = date.addDays(59);
       if(date.getDay() == 6) {date = date.addDays(2);}
       if(date.getDay() == 0) {date = date.addDays(1);}
       console.log(date.addDays(2),date.getDay(),new Date(date.getTime()+(1*24*60*60*1000)));
@@ -32,22 +38,40 @@ This really messy! :)
         },
         async: false
       });
+      console.log(date.getDate())
+      var levercd = 0;
+      var leverdone = true;
+      var leverblock = false;
       for(let i=0;i<100;i++) {
-          table.append("<tr class='days' id='"+i+"'></tr>");
-          let row = table.find("tr.days#"+i);
           let j = 1;
+          var dset = false;
+          if(levercd > 0 && leverdone == false) {
+            table.append("<tr class='title'><td colspan='5'>"+date.monthName()+"</td></tr>");
+            leverdone = true;
+            //break;
+
+            i -= 2;
+          } else {
+            table.append("<tr class='days' id='"+i+"'></tr>");
+            let row = table.find("tr.days#"+i).last();
+
           while(true) {
-            if(days > 90) {
+            if(days > 90+7*3) {
               brake = true;
               break;
             }
             //console.log(date.getDay());
-            if(j<date.getDay()) {
+            if(j<date.getDay() || dset > 0) {
+              if(dset == false) {
+                console.log(date.getDay())
+                dset = date.getDay()-1;
+                date = date.addDays(-date.getDay()+1)
+              }
               var off = ""
               var comment = ""
               var from;
               var to;
-
+              var btop = 0;
               for(let k=0;k<offdays.length;k++) {
                 if(getJustDay(offdays[k][2])<= getJustDay(Date.parse(date)) && getJustDay(offdays[k][3])>=getJustDay(Date.parse(date))) {
                     off += (offdays[k][0] + " ");
@@ -56,11 +80,34 @@ This really messy! :)
                     to = offdays[k][3];
                   }
               }
-              row.append("<td class='day off' id='"+Date.parse(date)+"' data-day='"+date.getDay()+"'><span class='month'>"+date.getMonth()+"/</span>"+date.getDate()+"<div data-id='"+oid+"' title='"+comment+"' data-from='"+from+"' data-to='"+to+"' data-comment='"+comment+"' class='type "+off+"'></div></td>");
+              row.append("<td class='day off' id='"+Date.parse(date)+"' data-day='"+date.getDay()+"'><span class='month'>"+(date.getMonth()+1)+"/</span>"+date.getDate()+"<div data-id='"+oid+"' title='"+comment+"' data-from='"+from+"' data-to='"+to+"' data-comment='"+comment+"' class='type "+off+"'></div></td>");
+              date = date.addDays(1);
+              dset -= 1;
             } else {
-              var off = ""
+              var lever = "on ";
+              levercd -= 1;
+              if(((date.getDay() == 5 && daysInMonth(date) - date.getDate() < 2) || date.getDate() == daysInMonth(date)) && leverblock == false) {
+                levercd = 6;
+                leverdone = false;
+              }
+              if(levercd < 6 && levercd > 0) {
+                lever = "off ";
+              }
+              if(date.getDay() == 1 && leverblock == false && lever == "off " && levercd >= 0) {
+                date = date.addDays(-7);
+                leverblock = true;
+              }
+              if(levercd == 0) {
+                leverblock = false;
+              }
+              console.log(levercd,leverblock,leverdone)
+                            var off = ""
               var comment = ""
               var oid;
+              btop -= 1;
+              if(date.getDate() < 5 && btop < 0) {
+                btop = 5;
+              }
               for(let k=0;k<offdays.length;k++) {
                   if(getJustDay(offdays[k][2])<= getJustDay(Date.parse(date)) && getJustDay(offdays[k][3])>=getJustDay(Date.parse(date))) {
                     off += (offdays[k][0] + " ");
@@ -70,9 +117,21 @@ This really messy! :)
                     oid = offdays[k][4]
                   }
               }
-              row.append("<td class='day on' id='"+Date.parse(date)+"' data-day='"+date.getDay()+"'><span class='month'>"+date.getMonth()+"/</span>"+date.getDate()+"<div data-id='"+oid+"' title='"+comment+"' data-from='"+from+"' data-to='"+to+"' data-comment='"+comment+"' class='type "+off+"'></div></td>");
+              //console.log(getJustDay(Date.parse(date)))
+              //console.log(daysInMonth(date));
+
+              console.log(levercd);
+              var thatcell = row.append("<td class='day "+lever+"' id='"+Date.parse(date)+"' data-day='"+date.getDay()+"'><span class='month'>"+(date.getMonth()+1)+"/</span>"+date.getDate()+"<div data-id='"+oid+"' title='"+comment+"' data-from='"+from+"' data-to='"+to+"' data-comment='"+comment+"' class='type "+off+"'></div></td>");
               activeday = row.find("td#"+Date.parse(date));
+              if(((date.getDate() == 1 && date.getDay() != 1))) {
+                btop = 5;
+              }
               date = date.addDays(1);
+              /*if(date.getDay()== 4) {
+                row.append("<h5 style='display:block;width: 100%'>Hallo</h5>")
+              }*/
+              if(date.getDate() == 1) {
+              }
             }
             days++
             j++
@@ -81,9 +140,23 @@ This really messy! :)
               date = date.addDays(2)
               break;
             }
+            }
           }
           if(brake == true) {break;}
       }
+
+      // REMOVE ROWS WITH JUST GREY DATES
+      $("table tr").each(function() {
+        var matches = 0;
+        $(this).find("td").each(function() {
+          if($(this).hasClass("off")) {
+            matches += 1;
+          }
+        });
+        if(matches == 5) {
+          $(this).remove();
+        }
+      })
 
       // SELECTION
       var selection = [];
@@ -106,6 +179,16 @@ This really messy! :)
             if(elems.last().className == "month") {
               elems = elems.slice(0, -1);
             }
+            stop = false;
+            for(q=0;q<elems.length;q++) {
+              if($(elems[q]).hasClass("off") || $(elems[q]).hasClass("title")) {
+                stop = true;
+                break;
+              }
+            }
+            if(stop == false) {
+
+
             $(elems[elems.length-1]).addClass("selected");
             selection.push(elems.last());
 
@@ -156,6 +239,7 @@ This really messy! :)
                   })
                 }
              });
+           }
         })
         $(document).bind("mouseup.ev"+id, function() {
             var wasDragging = isDragging;
@@ -379,7 +463,12 @@ function allElementsFromPoint(x, y) {
     }
     return elements;
 }
-
+Date.prototype.monthName = function() {
+  var monthNames = ["January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ];
+  return monthNames[this.getMonth()];
+}
 Array.prototype.last = function() {return this[this.length-1];}
 
 Date.prototype.addDays = function(days) {
