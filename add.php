@@ -1,13 +1,15 @@
 <?php
+$db_loc = "db.db";
+
   error_reporting(E_ALL);
   class MyDB extends SQLite3
   {
-    function __construct()
+    function __construct($db_loc)
     {
-       $this->open('db.db');
+       $this->open($db_loc);
     }
   }
-  $db = new MyDB();
+  $db = new MyDB($db_loc);
   if(!$db){
     echo $db->lastErrorMsg();
   } else {
